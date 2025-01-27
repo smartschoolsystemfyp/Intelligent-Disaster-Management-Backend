@@ -35,9 +35,14 @@ connectDB()
 app.use((err, req, res, next) => {
   const message = err.message || "Internal server error";
 
-  res.status(500).json({
+  const response = {
     success: false,
     message,
-    error: err.stack,
-  });
+  };
+
+  if (process.env.NODE_ENV === "development") {
+    response.error = err.stack;
+  }
+
+  res.status(500).json(response);
 });
