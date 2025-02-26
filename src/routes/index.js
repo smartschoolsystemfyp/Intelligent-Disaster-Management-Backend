@@ -26,7 +26,7 @@ router.post(
 );
 router.get(
   "/volunteer",
-  // verifyToken,
+  verifyToken,
   catchErrors(VolunteerController.getAllVolunteers)
 );
 router.get(
@@ -58,7 +58,7 @@ router.post(
 );
 router.get(
   "/disaster",
-  // verifyToken,
+  verifyToken,
   catchErrors(DisasterController.getAllDisasters)
 );
 router.get(
@@ -95,7 +95,7 @@ router.post(
 );
 router.get(
   "/resource",
-  // verifyToken,
+  verifyToken,
   catchErrors(ResourceController.getAllResources)
 );
 router.get(
@@ -127,7 +127,7 @@ router.post(
 );
 router.get(
   "/donation",
-  // verifyToken,
+  verifyToken,
   catchErrors(DonationController.getAllDonations)
 );
 router.get(
