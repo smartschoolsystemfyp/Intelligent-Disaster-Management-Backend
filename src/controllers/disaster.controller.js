@@ -17,7 +17,7 @@ class DisasterController {
       location,
       startDate,
       status,
-      type
+      type,
     });
 
     return res.status(201).json({
@@ -29,7 +29,12 @@ class DisasterController {
 
   // Retrieve a list of all disaster events
   async getAllDisasters(req, res) {
-    const disasters = await Disaster.find();
+    const disasters = await Disaster.find().populate([
+      { path: "resources", select: "name -_id" },
+      { path: "donations", select: "amount -_id" },
+      { path: "volunteers", select: "name -_id" },
+    ]);
+
     return res.status(200).json({
       success: true,
       message: "Disasters retrieved successfully",
@@ -83,6 +88,7 @@ class DisasterController {
     return res.status(200).json({
       success: true,
       message: "Disaster deleted successfully",
+      deletedDisaster,
     });
   }
 

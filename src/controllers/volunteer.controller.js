@@ -28,7 +28,10 @@ class VolunteerController {
 
   // Retrieve a list of all volunteers
   async getAllVolunteers(req, res, next) {
-    const volunteers = await Volunteer.find();
+    const volunteers = await Volunteer.find().populate({
+      path: "assignedDisaster",
+      select: "name",
+    });
 
     return res.status(200).json({
       success: true,
@@ -83,6 +86,7 @@ class VolunteerController {
     return res.status(200).json({
       success: true,
       message: "Volunteer deleted successfully",
+      deletedVolunteer,
     });
   }
 
@@ -98,20 +102,20 @@ class VolunteerController {
       });
     }
 
-    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+    const volunteer = await Volunteer.findByIdAndUpdate(
       volunteerId,
       { assignedDisaster: disasterId },
       { new: true }
     );
 
-    if (!updatedVolunteer) {
+    if (!volunteer) {
       throw new Error("Volunteer not found");
     }
 
     return res.status(200).json({
       success: true,
       message: "Volunteer assigned to disaster successfully",
-      updatedVolunteer,
+      volunteer,
     });
   }
 }

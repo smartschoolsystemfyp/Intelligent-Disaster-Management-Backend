@@ -11,12 +11,12 @@ import AuthController from "../controllers/authentication.controller.js";
 const router = express.Router();
 
 // _____________________Authentication Routes______________________
-router.post("/user/register", catchErrors(AuthController.register));
-router.post("/user/login", catchErrors(AuthController.login));
-router.get("/user/logout", verifyToken, catchErrors(AuthController.logout));
+router.post("/auth/register", catchErrors(AuthController.register));
+router.post("/auth/login", catchErrors(AuthController.login));
+router.get("/auth/logout", verifyToken, catchErrors(AuthController.logout));
 
 // _____________________Insight Route______________________
-router.get("/insights", verifyToken, catchErrors(getInsights));
+router.get("/insights", catchErrors(getInsights));
 
 // _____________________Volunteers Routes______________________
 router.post(
@@ -26,7 +26,7 @@ router.post(
 );
 router.get(
   "/volunteer",
-  verifyToken,
+  // verifyToken,
   catchErrors(VolunteerController.getAllVolunteers)
 );
 router.get(
@@ -46,7 +46,7 @@ router.delete(
 );
 router.patch(
   "/disaster/:disasterId/volunteer/:volunteerId",
-  verifyToken,
+  // verifyToken,
   catchErrors(VolunteerController.assignVolunteerToDisaster)
 );
 
@@ -58,7 +58,7 @@ router.post(
 );
 router.get(
   "/disaster",
-  verifyToken,
+  // verifyToken,
   catchErrors(DisasterController.getAllDisasters)
 );
 router.get(
@@ -95,7 +95,7 @@ router.post(
 );
 router.get(
   "/resource",
-  verifyToken,
+  // verifyToken,
   catchErrors(ResourceController.getAllResources)
 );
 router.get(
@@ -115,7 +115,7 @@ router.delete(
 );
 router.patch(
   "/disaster/:disasterId/resource/:resourceId",
-  verifyToken,
+  // verifyToken,
   catchErrors(ResourceController.assignResourceToDisaster)
 );
 
@@ -127,7 +127,7 @@ router.post(
 );
 router.get(
   "/donation",
-  verifyToken,
+  // verifyToken,
   catchErrors(DonationController.getAllDonations)
 );
 router.get(
@@ -147,7 +147,7 @@ router.delete(
 );
 router.patch(
   "/disaster/:disasterId/donation/:donationId",
-  verifyToken,
+  // verifyToken,
   catchErrors(DonationController.assignDonationToDisaster)
 );
 

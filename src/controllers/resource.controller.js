@@ -27,7 +27,10 @@ class ResourceController {
 
   // Retrieve all available resources
   async getAllResources(req, res) {
-    const resources = await Resource.find();
+    const resources = await Resource.find().populate({
+      path: "assignedDisaster",
+      select: "name",
+    });
 
     return res.status(200).json({
       success: true,
@@ -82,6 +85,7 @@ class ResourceController {
     return res.status(200).json({
       success: true,
       message: "Resource deleted successfully",
+      deletedResource,
     });
   }
 
@@ -111,6 +115,7 @@ class ResourceController {
     return res.status(200).json({
       success: true,
       message: "Resource allocated to disaster successfully",
+      resource,
     });
   }
 }

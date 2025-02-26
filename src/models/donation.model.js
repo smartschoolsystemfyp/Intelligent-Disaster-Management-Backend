@@ -28,7 +28,6 @@ const donationSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Pending", "Recieved", "Assigned"],
     default: "Pending",
   },
   assignedDisaster: {

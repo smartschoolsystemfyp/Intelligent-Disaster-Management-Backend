@@ -19,7 +19,7 @@ const resourceSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Available", "Allocated", "Depleted"],
+    enum: ["Available", "Allocated", "Unavailable"],
     default: "Available",
   },
   assignedDisaster: {

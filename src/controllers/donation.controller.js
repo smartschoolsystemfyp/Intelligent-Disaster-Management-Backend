@@ -6,7 +6,8 @@ class DonationController {
   async createDonation(req, res) {
     const id = req.user;
 
-    const { donorName, donorContact, donationType, amount, items } = req.body;
+    const { donorName, donorContact, donationType, amount, items, status } =
+      req.body;
 
     if (!donorName || !amount || !items || !donationType) {
       throw new Error("All fields are required");
@@ -19,6 +20,7 @@ class DonationController {
       items,
       donationType,
       createdBy: id,
+      status,
     });
 
     return res.status(201).json({
@@ -30,14 +32,15 @@ class DonationController {
 
   // Retrieve all donations
   async getAllDonations(req, res) {
-    const donations = await Donation.find().populate(
-      "assignedDisaster",
-      "name"
-    ); // Populate disaster details
+    const donations = await Donation.find().populate({
+      path: "assignedDisaster",
+      select: "name",
+    });
+
     return res.status(200).json({
       success: true,
       message: "Donations retrieved successfully",
-      data: donations,
+      donations,
     });
   }
 
@@ -57,7 +60,7 @@ class DonationController {
     return res.status(200).json({
       success: true,
       message: "Donation retrieved successfully",
-      data: donation,
+      donation,
     });
   }
 
@@ -76,7 +79,7 @@ class DonationController {
     return res.status(200).json({
       success: true,
       message: "Donation updated successfully",
-      data: updatedDonation,
+      updatedDonation,
     });
   }
 
@@ -92,6 +95,7 @@ class DonationController {
     return res.status(200).json({
       success: true,
       message: "Donation deleted successfully",
+      deletedDonation,
     });
   }
 
@@ -112,7 +116,7 @@ class DonationController {
       throw new Error("Donation not found");
     }
 
-    if (donation.status !== "Recieved") {
+    if (donation.status.toLowerCase() !== "received") {
       throw new Error("Donation is currently unavalaible");
     }
 
@@ -124,6 +128,7 @@ class DonationController {
     return res.status(200).json({
       success: true,
       message: "Donation linked to disaster successfully",
+      donation,
     });
   }
 }

@@ -2,6 +2,7 @@ import moment from "moment";
 import Volunteer from "../models/volunteer.model.js";
 import Disaster from "../models/disaster.model.js";
 import Donation from "../models/donation.model.js";
+import Resource from "../models/resource.model.js";
 
 const getInsights = async (req, res) => {
   const totalVolunteers = await Volunteer.countDocuments();
@@ -9,6 +10,12 @@ const getInsights = async (req, res) => {
   const ongoingDisasters = await Disaster.countDocuments({ status: "Active" });
 
   const totalDonations = await Donation.countDocuments();
+  const resourcesName = await Resource.find()
+    .select("name -_id")
+    .sort({ quantity: -1 });
+  const resourcesQuantity = await Resource.find()
+    .select("quantity -_id")
+    .sort({ quantity: -1 });
 
   const totalDonationAmount = await Donation.aggregate([
     { $group: { _id: null, totalAmount: { $sum: "$amount" } } },
@@ -25,6 +32,8 @@ const getInsights = async (req, res) => {
       ongoingDisasters,
       totalDonations,
       totalAmount,
+      resourcesName,
+      resourcesQuantity,
     },
   });
 };
