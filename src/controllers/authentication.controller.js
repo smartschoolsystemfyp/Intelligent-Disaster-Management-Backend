@@ -26,7 +26,7 @@ class AuthController {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       throw new Error("Invalid credentials");
     }
@@ -56,6 +56,25 @@ class AuthController {
       success: true,
       message: "Logout successful",
     });
+  }
+
+  async updatePassword(req, res) {
+    const id = req.user;
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) throw new Error("User not found");
+
+    const isMatch = await user.comparePassword(oldPassword);
+
+    if (!isMatch) throw new Error("Old password is incorrect");
+
+    user.password = newPassword;
+    await user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: "Password updated successfully" });
   }
 }
 

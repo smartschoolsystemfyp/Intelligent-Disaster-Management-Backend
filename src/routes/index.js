@@ -14,6 +14,11 @@ const router = express.Router();
 router.post("/auth/register", catchErrors(AuthController.register));
 router.post("/auth/login", catchErrors(AuthController.login));
 router.get("/auth/logout", verifyToken, catchErrors(AuthController.logout));
+router.patch(
+  "/auth/password/update",
+  verifyToken,
+  catchErrors(AuthController.updatePassword)
+);
 
 // _____________________Insight Route______________________
 router.get("/insights", catchErrors(getInsights));
