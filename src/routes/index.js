@@ -7,6 +7,7 @@ import DisasterController from "../controllers/disaster.controller.js";
 import ResourceController from "../controllers/resource.controller.js";
 import DonationController from "../controllers/donation.controller.js";
 import AuthController from "../controllers/authentication.controller.js";
+import paymentIntent from "../controllers/payment.controller.js";
 
 const router = express.Router();
 
@@ -21,7 +22,8 @@ router.patch(
 );
 
 // _____________________Insight Route______________________
-router.get("/insights", catchErrors(getInsights));
+router.get("/insights", verifyToken, catchErrors(getInsights));
+router.post("/payment", catchErrors(paymentIntent));
 
 // _____________________Volunteers Routes______________________
 router.post(

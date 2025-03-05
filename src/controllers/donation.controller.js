@@ -9,7 +9,7 @@ class DonationController {
     const { donorName, donorContact, donationType, amount, items, status } =
       req.body;
 
-    if (!donorName || !amount || !items || !donationType) {
+    if (!donorName || !amount || !donationType) {
       throw new Error("All fields are required");
     }
 
