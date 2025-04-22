@@ -28,7 +28,7 @@ router.post("/payment", catchErrors(paymentIntent));
 // _____________________Volunteers Routes______________________
 router.post(
   "/volunteer",
-  verifyToken,
+  // verifyToken,
   catchErrors(VolunteerController.createVolunteer)
 );
 router.get(
